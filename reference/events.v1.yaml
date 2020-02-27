@@ -1,0 +1,109 @@
+openapi: 3.0.0
+info:
+  title: Events
+  version: '1.0'
+  description: Event API
+  contact:
+    name: Billy Bob Bowen
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /events/:
+    get:
+      summary: GET - All Events
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              examples: {}
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '404':
+          description: Not Found
+        '':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Events'
+      operationId: get-tickets
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: date
+          description: Date of event
+    parameters: []
+  '/events/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: GET - An Event
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '404':
+          description: Not Found
+      operationId: get-events-id
+components:
+  schemas:
+    Event:
+      title: Event
+      type: object
+      x-examples:
+        event:
+          id: 5f152212-107d-4c66-b6fe-654c5b60df61
+          date: '2019-01-01'
+          name: Orchestra Concert
+          artist: Bach
+          location:
+            id: 10
+            name: THE Concert Hall
+            capacity: 1500
+      description: ''
+      properties:
+        id:
+          type: string
+        date:
+          type: string
+        '':
+          type: string
+        artist:
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+    Location:
+      title: Location
+      type: object
+      x-examples:
+        location:
+          id: 10
+          name: THE Concert Hall
+          capacity: 1500
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        capacity:
+          type: integer
+        '':
+          type: string
+    Events:
+      title: Events
+      type: array
+      items:
+        $ref: '#/components/schemas/Event'
